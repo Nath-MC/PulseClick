@@ -52,9 +52,6 @@ public class PulseClickClient implements ClientModInitializer {
 				client.setScreen(MidnightConfig.getScreen(client.currentScreen, MOD_ID));
 			}
 
-			// Release the key that might have been pressed in the previous tick
-			releaseKey(client);
-
 			if (activateKeyBinding.wasPressed()) {
 				isClicking = !isClicking;
 				if (isClicking)
@@ -64,6 +61,9 @@ public class PulseClickClient implements ClientModInitializer {
 			}
 
 			if (isClicking) {
+				// Release the key that might have been pressed in the previous tick
+				releaseKey(client);
+
 				switch (PulseClickConfig.timingMode) {
 					case TICKS -> {
 						tickMode(client);

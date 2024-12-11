@@ -14,7 +14,7 @@
   "pulseclick.midnightconfig.tickBetweenClicksComment":"If you have the timing mode set to \"Execute after X Ticks\", this is the number of ticks between each click:",
 
   "category.pulseclick": "Pulse Click",
-  "key.pulseclick.active": "Activate auto clicker",
+  "key.pulseclick.activate": "Activate auto clicker",
   "key.pulseclick.config": "Open config",
 
   "pulseclick.message.activated": "Auto clicker activated",
