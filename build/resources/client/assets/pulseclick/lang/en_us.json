@@ -1,0 +1,14 @@
+{
+  "pulseclick.midnightconfig.title": "Pulse Click Config",
+  "pulseclick.midnightconfig.timingModeComment": "This defines when a click will be executed:",
+  "pulseclick.midnightconfig.enum.TimingMode.TICKS":"Execute after X ticks",
+  "pulseclick.midnightconfig.enum.TimingMode.ATTACK_COOLDOWN":"Execute after attack cooldown expired",
+  "pulseclick.midnightconfig.tickBetweenClicksComment":"If you have the timing mode set to \"Execute after X Ticks\", this is the number of ticks between each click:",
+
+  "category.pulseclick": "Pulse Click",
+  "key.pulseclick.active": "Activate auto clicker",
+  "key.pulseclick.config": "Open config",
+
+  "pulseclick.message.activated": "Auto clicker activated",
+  "pulseclick.message.deactivated": "Auto clicker deactivated"
+}

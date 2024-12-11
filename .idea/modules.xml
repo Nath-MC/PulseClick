@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PulseClick.client.iml" filepath="$PROJECT_DIR$/.idea/modules/PulseClick.client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PulseClick.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PulseClick.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PulseClick.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PulseClick.test.iml" />
+    </modules>
+  </component>
+</project>
