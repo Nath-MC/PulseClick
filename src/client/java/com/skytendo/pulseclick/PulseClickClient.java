@@ -48,11 +48,11 @@ public class PulseClickClient implements ClientModInitializer {
 			if (client.player == null) return; // If we do not have a client, we are not in-game and we want to return.
 
 			// Open config if the key was pressed
-			if (configKeyBinding.wasPressed()) {
+			while (configKeyBinding.wasPressed()) {
 				client.setScreen(MidnightConfig.getScreen(client.currentScreen, MOD_ID));
 			}
 
-			if (activateKeyBinding.wasPressed()) {
+			while (activateKeyBinding.wasPressed()) {
 				isClicking = !isClicking;
 				if (isClicking)
 					client.player.sendMessage(Text.translatable("pulseclick.message.activated"), true);
