@@ -4,9 +4,14 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.gui.screen.MessageScreen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -44,6 +49,13 @@ public class PulseClickClient implements ClientModInitializer {
 				"category.pulseclick"
 		));
 
+		// Deactivate PulseClick if the player disconnects
+		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(() -> {
+			if (isClicking) {
+				toggleAutoClicker(client);
+			}
+		}));
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (client.player == null) return; // If we do not have a client, we are not in-game and we want to return.
 
@@ -53,14 +65,7 @@ public class PulseClickClient implements ClientModInitializer {
 			}
 
 			while (activateKeyBinding.wasPressed()) {
-				isClicking = !isClicking;
-				if (isClicking) {
-					client.player.sendMessage(Text.translatable("pulseclick.message.activated"), true);
-				}
-				else {
-					client.player.sendMessage(Text.translatable("pulseclick.message.deactivated"), true);
-					releaseKey(client);
-				}
+				toggleAutoClicker(client);
 			}
 
 			if (isClicking) {
@@ -76,10 +81,43 @@ public class PulseClickClient implements ClientModInitializer {
 					}
 				}
 
+				// Deactivate PulseClick if the player is starving (if enabled)
+				if (PulseClickConfig.preventStarvation) {
+					if (client.player.getHungerManager().getFoodLevel() < 4) {
+						client.player.sendMessage(Text.translatable("pulseclick.message.starvation"), false);
+						toggleAutoClicker(client);
+					}
+				}
+
+				// Disconnect if the player has low health (if enabled)
+				if (PulseClickConfig.disconnectOnLowHealth) {
+					if (client.player.getHealth() < 3) {
+						disconnect(client);
+					}
+				}
 			}
 		});
 	}
 
+	/**
+	 * Toggles the auto clicker on and off and sends an overlay message
+	 * @param client The client
+	 */
+	private void toggleAutoClicker(MinecraftClient client) {
+		isClicking = !isClicking;
+		if (isClicking) {
+			client.player.sendMessage(Text.translatable("pulseclick.message.activated"), true);
+		}
+		else {
+			client.player.sendMessage(Text.translatable("pulseclick.message.deactivated"), true);
+			releaseKey(client);
+		}
+	}
+
+	/**
+	 * Executed if the timing mode is set to ATTACK_COOLDOWN
+	 * @param client The client
+	 */
 	private void attackCooldownMode(MinecraftClient client) {
 		if (client.player.getAttackCooldownProgress(0) == 1) {
 			pressKey(client);
@@ -87,6 +125,10 @@ public class PulseClickClient implements ClientModInitializer {
 		}
 	}
 
+	/**
+	 * Executed if the timing mode is set to TICKS
+	 * @param client The client
+	 */
 	private void tickMode(MinecraftClient client) {
 		tickCounter++;
 		if (tickCounter >= PulseClickConfig.ticksBetweenClicks) {
@@ -96,6 +138,10 @@ public class PulseClickClient implements ClientModInitializer {
 		}
 	}
 
+	/**
+	 * Attempts to attack a mob
+	 * @param client The client
+	 */
 	private void attemptMobAttack(MinecraftClient client) {
 		if (client.interactionManager == null)
 			return;
@@ -109,6 +155,10 @@ public class PulseClickClient implements ClientModInitializer {
 		}
 	}
 
+	/**
+	 * Presses the key that is currently configured to be held down
+	 * @param client The client
+	 */
 	private void pressKey(MinecraftClient client) {
 		switch (PulseClickConfig.key) {
 			case MOUSE_LEFT -> client.options.attackKey.setPressed(true);
@@ -116,10 +166,38 @@ public class PulseClickClient implements ClientModInitializer {
 		}
 	}
 
+	/**
+	 * Release the key that is currently configured to be held down
+	 * @param client The client
+	 */
 	private void releaseKey(MinecraftClient client) {
 		switch (PulseClickConfig.key) {
 			case MOUSE_LEFT -> client.options.attackKey.setPressed(false);
 			case MOUSE_RIGHT -> client.options.useKey.setPressed(false);
+		}
+	}
+
+	/**
+	 * Disconnect the player from the (integrated or external) server
+	 * @param client The client
+	 */
+	private void disconnect(MinecraftClient client) {
+		boolean singleplayer = client.isInSingleplayer();
+		ServerInfo serverInfo = client.getCurrentServerEntry();
+		client.world.disconnect();
+		if (singleplayer) {
+			client.disconnect(new MessageScreen(Text.translatable("menu.savingLevel")));
+		} else {
+			client.disconnect();
+		}
+
+		TitleScreen titleScreen = new TitleScreen();
+		if (singleplayer) {
+			client.setScreen(titleScreen);
+		} else if (serverInfo != null && serverInfo.isRealm()) {
+			client.setScreen(new RealmsMainScreen(titleScreen));
+		} else {
+			client.setScreen(new MultiplayerScreen(titleScreen));
 		}
 	}
 }

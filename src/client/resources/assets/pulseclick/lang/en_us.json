@@ -13,10 +13,17 @@
   "pulseclick.midnightconfig.ticksBetweenClicks": "Ticks between clicks",
   "pulseclick.midnightconfig.tickBetweenClicksComment":"If you have the timing mode set to \"Execute after X Ticks\", this is the number of ticks between each click:",
 
+  "pulseclick.midnightconfig.preventStarvationComment": "When active, PulseClick will automatically disable itself when you are below 2 hunger bars.",
+  "pulseclick.midnightconfig.preventStarvation": "Prevent starvation",
+
+  "pulseclick.midnightconfig.disconnectOnLowHealthComment": "When active, you will automatically be disconnected and sent back to the title screen when you are below 1 1/2 hearts. §cWarning: Do not use this on public servers.",
+  "pulseclick.midnightconfig.disconnectOnLowHealth": "Disconnect on low health",
+
   "category.pulseclick": "Pulse Click",
   "key.pulseclick.activate": "Activate auto clicker",
   "key.pulseclick.config": "Open config",
 
-  "pulseclick.message.activated": "Auto clicker activated",
-  "pulseclick.message.deactivated": "Auto clicker deactivated"
+  "pulseclick.message.activated": "§aPulseClick activated",
+  "pulseclick.message.deactivated": "§cPulseClick deactivated",
+  "pulseclick.message.starvation": "§4§lStarvation detected! §r§c You need to eat something!"
 }

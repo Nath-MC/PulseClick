@@ -1,0 +1,13 @@
+/gamemode survival
+/effect give Player828 minecraft:hunger infinite 10
+/effect give Player828 minecraft:hunger infinite 100
+/gamemode creative
+/effect clear
+/effect give Player828 minecraft:hunger infinite 100
+/effect give Player906 minecraft:hunger infinite 100
+/gamemode survival
+/gamemode creative
+/effect clear
+/effect give Player255 minecraft:saturation infinite
+/gamemode survival
+/effect clear
