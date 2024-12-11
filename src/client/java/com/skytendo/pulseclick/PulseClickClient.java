@@ -25,16 +25,19 @@ public class PulseClickClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		MidnightConfig.init(MOD_ID, PulseClickConfig.class); // Init Config
+		// Init Config
+		MidnightConfig.init(MOD_ID, PulseClickConfig.class);
 
-		activateKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding( // Init activation key bind
+		// Init activation key bind
+		activateKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.pulseclick.activate",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_F6,
 				"category.pulseclick"
 		));
 
-		configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding( // Init config key bind
+		// Init config key bind
+		configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.pulseclick.config",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_J,
@@ -44,13 +47,16 @@ public class PulseClickClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (client.player == null) return; // If we do not have a client, we are not in-game and we want to return.
 
+			// Open config if the key was pressed
 			if (configKeyBinding.wasPressed()) {
 				client.setScreen(MidnightConfig.getScreen(client.currentScreen, MOD_ID));
 			}
 
+			// Release the key that might have been pressed in the previous tick
+			releaseKey(client);
+
 			if (activateKeyBinding.wasPressed()) {
 				isClicking = !isClicking;
-
 				if (isClicking)
 					client.player.sendMessage(Text.translatable("pulseclick.message.activated"), true);
 				else
@@ -73,6 +79,7 @@ public class PulseClickClient implements ClientModInitializer {
 
 	private void attackCooldownMode(MinecraftClient client) {
 		if (client.player.getAttackCooldownProgress(0) == 1) {
+			pressKey(client);
 			attemptMobAttack(client);
 		}
 	}
@@ -81,6 +88,7 @@ public class PulseClickClient implements ClientModInitializer {
 		tickCounter++;
 		if (tickCounter >= PulseClickConfig.ticksBetweenClicks) {
 			tickCounter = 0;
+			pressKey(client);
 			attemptMobAttack(client);
 		}
 	}
@@ -88,11 +96,27 @@ public class PulseClickClient implements ClientModInitializer {
 	private void attemptMobAttack(MinecraftClient client) {
 		if (client.interactionManager == null)
 			return;
+		if (PulseClickConfig.key != Key.MOUSE_LEFT)
+			return;
 
 		HitResult rayTrace = client.crosshairTarget;
 		if (rayTrace instanceof EntityHitResult) {
 			client.interactionManager.attackEntity(client.player, ((EntityHitResult) rayTrace).getEntity());
 			client.player.swingHand(Hand.MAIN_HAND);
+		}
+	}
+
+	private void pressKey(MinecraftClient client) {
+		switch (PulseClickConfig.key) {
+			case MOUSE_LEFT -> client.options.attackKey.setPressed(true);
+			case MOUSE_RIGHT -> client.options.useKey.setPressed(true);
+		}
+	}
+
+	private void releaseKey(MinecraftClient client) {
+		switch (PulseClickConfig.key) {
+			case MOUSE_LEFT -> client.options.attackKey.setPressed(false);
+			case MOUSE_RIGHT -> client.options.useKey.setPressed(false);
 		}
 	}
 }

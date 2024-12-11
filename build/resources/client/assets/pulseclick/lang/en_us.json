@@ -1,8 +1,16 @@
 {
   "pulseclick.midnightconfig.title": "Pulse Click Config",
-  "pulseclick.midnightconfig.timingModeComment": "This defines when a click will be executed:",
-  "pulseclick.midnightconfig.enum.TimingMode.TICKS":"Execute after X ticks",
+
+  "pulseclick.midnightconfig.key": "Key to be pressed",
+  "pulseclick.midnightconfig.enum.Key.MOUSE_LEFT":"Left Mouse Button",
+  "pulseclick.midnightconfig.enum.Key.MOUSE_RIGHT":"Right Mouse Button",
+
+  "pulseclick.midnightconfig.timingMode": "Timing mode",
   "pulseclick.midnightconfig.enum.TimingMode.ATTACK_COOLDOWN":"Execute after attack cooldown expired",
+  "pulseclick.midnightconfig.enum.TimingMode.TICKS":"Execute after X ticks",
+  "pulseclick.midnightconfig.enum.TimingMode.ATTACK_COOLDOWN":"Respect attack cooldown",
+
+  "pulseclick.midnightconfig.ticksBetweenClicks": "Ticks between clicks",
   "pulseclick.midnightconfig.tickBetweenClicksComment":"If you have the timing mode set to \"Execute after X Ticks\", this is the number of ticks between each click:",
 
   "category.pulseclick": "Pulse Click",

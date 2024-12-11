@@ -4,11 +4,14 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class PulseClickConfig extends MidnightConfig {
 
-    @Comment public static Comment timingModeComment;
-    @Entry(name = "Timing mode") public static TimingMode timingMode = TimingMode.TICKS;
+    @Entry() public static Key key = Key.MOUSE_LEFT;
 
     @Comment public static Comment spacer1;
 
+    @Entry() public static TimingMode timingMode = TimingMode.TICKS;
+
+    @Comment public static Comment spacer2;
+
     @Comment public static Comment tickBetweenClicksComment;
-    @Entry(name = "Ticks between clicks", min = 1, max = 5000) public static int ticksBetweenClicks = 100;
+    @Entry(min = 1, max = 5000) public static int ticksBetweenClicks = 100;
 }

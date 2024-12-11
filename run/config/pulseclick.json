@@ -1,4 +1,5 @@
 {
-  "timingMode": "ATTACK_COOLDOWN",
+  "key": "MOUSE_LEFT",
+  "timingMode": "TICKS",
   "ticksBetweenClicks": 100
 }
