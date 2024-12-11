@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "pulseclick",
-	"version": "r1.1.1-1.21.4",
+	"version": "r1.1.2-1.21.4",
 	"name": "PulseClick",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [

@@ -54,10 +54,13 @@ public class PulseClickClient implements ClientModInitializer {
 
 			while (activateKeyBinding.wasPressed()) {
 				isClicking = !isClicking;
-				if (isClicking)
+				if (isClicking) {
 					client.player.sendMessage(Text.translatable("pulseclick.message.activated"), true);
-				else
+				}
+				else {
 					client.player.sendMessage(Text.translatable("pulseclick.message.deactivated"), true);
+					releaseKey(client);
+				}
 			}
 
 			if (isClicking) {
