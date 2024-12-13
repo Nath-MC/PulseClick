@@ -16,7 +16,10 @@
   "pulseclick.midnightconfig.preventStarvationComment": "When active, PulseClick will automatically disable itself when you are below 2 hunger bars.",
   "pulseclick.midnightconfig.preventStarvation": "Prevent starvation",
 
-  "pulseclick.midnightconfig.disconnectOnLowHealthComment": "When active, you will automatically be disconnected and sent back to the title screen when you are below 1 1/2 hearts. §cWarning: Do not use this on public servers.",
+  "pulseclick.midnightconfig.preventToolBreakComment": "When active, PulseClick will automatically disable itself when the tool you are holding is about to break (durability lower than 10)",
+  "pulseclick.midnightconfig.preventToolBreak": "Prevent tool breaking",
+
+  "pulseclick.midnightconfig.disconnectOnLowHealthComment": "When active, you will automatically be disconnected and sent back to the title screen when you are below 1 1/2 hearts.",
   "pulseclick.midnightconfig.disconnectOnLowHealth": "Disconnect on low health",
 
   "category.pulseclick": "Pulse Click",
@@ -25,5 +28,6 @@
 
   "pulseclick.message.activated": "§aPulseClick activated",
   "pulseclick.message.deactivated": "§cPulseClick deactivated",
-  "pulseclick.message.starvation": "§4§lStarvation detected! §r§c You need to eat something!"
+  "pulseclick.message.starvation": "§4§lStarvation detected! §r§c You need to eat something!",
+  "pulseclick.message.toolbreak": "§4§lLow durability detected! §r§c You need to repair your tool!"
 }

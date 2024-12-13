@@ -11,3 +11,5 @@
 /effect give Player255 minecraft:saturation infinite
 /gamemode survival
 /effect clear
+/gamemode creative
+/gamemode survival

@@ -1,7 +1,8 @@
 {
-  "key": "MOUSE_RIGHT",
+  "key": "MOUSE_LEFT",
   "timingMode": "TICKS",
-  "ticksBetweenClicks": 10,
+  "ticksBetweenClicks": 50,
   "preventStarvation": true,
-  "disconnectOnLowHealth": true
+  "preventToolBreak": false,
+  "disconnectOnLowHealth": false
 }
