@@ -2,6 +2,7 @@
   "key": "MOUSE_RIGHT",
   "timingMode": "TICKS",
   "ticksBetweenClicks": 50,
+  "raidFarmMode": true,
   "preventStarvation": true,
   "preventToolBreak": false,
   "disconnectOnLowHealth": false,

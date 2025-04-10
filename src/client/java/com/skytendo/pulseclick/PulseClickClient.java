@@ -123,9 +123,9 @@ public class PulseClickClient implements ClientModInitializer {
 			if (PulseClickConfig.raidFarmMode) {
 				PlayerEntity player = client.player;
 				if (!player.hasStatusEffect(StatusEffects.BAD_OMEN)) {
-
+					client.options.useKey.setPressed(true);
 				} else {
-
+					client.options.useKey.setPressed(false);
 				}
 			}
 		}

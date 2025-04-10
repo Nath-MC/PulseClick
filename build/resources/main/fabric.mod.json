@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "pulseclick",
-	"version": "r1.2.1-1.21.5",
+	"version": "b1.3.0-1.21.5",
 	"name": "PulseClick",
 	"description": "PulseClick is a simple and lightweight autoclicker mod.",
 	"authors": [
