@@ -17,6 +17,9 @@ public class PulseClickConfig extends MidnightConfig {
 
     @Comment public static Comment spacer3;
 
+    @Comment public static Comment raidFarmModeComment;
+    @Entry() public static boolean raidFarmMode = false;
+
     @Comment public static Comment preventStarvationComment;
     @Entry() public static boolean preventStarvation = true;
 
@@ -29,4 +32,9 @@ public class PulseClickConfig extends MidnightConfig {
 
     @Comment public static Comment disconnectOnLowHealthComment;
     @Entry() public static boolean disconnectOnLowHealth = false;
+
+    @Comment public static Comment spacer6;
+
+    @Comment public static Comment unpauseGameOnUnfocusComment;
+    @Entry() public static boolean unpauseGameOnUnfocus = true;
 }

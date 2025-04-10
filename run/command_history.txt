@@ -13,3 +13,4 @@
 /effect clear
 /gamemode creative
 /gamemode survival
+/gamemode creative

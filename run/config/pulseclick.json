@@ -1,8 +1,9 @@
 {
-  "key": "MOUSE_LEFT",
+  "key": "MOUSE_RIGHT",
   "timingMode": "TICKS",
   "ticksBetweenClicks": 50,
   "preventStarvation": true,
   "preventToolBreak": false,
-  "disconnectOnLowHealth": false
+  "disconnectOnLowHealth": false,
+  "unpauseGameOnUnfocus": false
 }

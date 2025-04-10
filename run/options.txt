@@ -1,4 +1,4 @@
-version:4189
+version:4325
 ao:true
 biomeBlendRadius:2
 enableVsync:true
@@ -80,7 +80,7 @@ rawMouseInput:true
 glDebugVerbosity:1
 skipMultiplayerWarning:false
 hideMatchedNames:true
-joinedFirstServer:false
+joinedFirstServer:true
 syncChunkWrites:false
 showAutosaveIndicator:true
 allowServerListing:true
@@ -89,6 +89,7 @@ panoramaScrollSpeed:1.0
 telemetryOptInExtra:false
 onboardAccessibility:false
 menuBackgroundBlurriness:5
+startedCleanly:true
 key_key.attack:key.mouse.left
 key_key.use:key.mouse.right
 key_key.forward:key.keyboard.w

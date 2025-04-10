@@ -22,6 +22,9 @@
   "pulseclick.midnightconfig.disconnectOnLowHealthComment": "When active, you will automatically be disconnected and sent back to the title screen when you are below 1 1/2 hearts.",
   "pulseclick.midnightconfig.disconnectOnLowHealth": "Disconnect on low health",
 
+  "pulseclick.midnightconfig.unpauseGameOnUnfocusComment": "Unpause the game when losing focus. Use this to keep PulseClick running in the background when not in the game window. This will disable the vanilla \"Pause on focus loss\" option.",
+  "pulseclick.midnightconfig.unpauseGameOnUnfocus": "Unpause on focus loss",
+
   "category.pulseclick": "Pulse Click",
   "key.pulseclick.activate": "Activate auto clicker",
   "key.pulseclick.config": "Open config",

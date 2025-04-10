@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.MessageScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -14,11 +15,14 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.component.ComponentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import org.lwjgl.glfw.GLFW;
 
 public class PulseClickClient implements ClientModInitializer {
 
@@ -38,7 +42,7 @@ public class PulseClickClient implements ClientModInitializer {
 		activateKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.pulseclick.activate",
 				InputUtil.Type.KEYSYM,
-				GLFW.GLFW_KEY_F6,
+				InputUtil.GLFW_KEY_F6,
 				"category.pulseclick"
 		));
 
@@ -46,7 +50,7 @@ public class PulseClickClient implements ClientModInitializer {
 		configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.pulseclick.config",
 				InputUtil.Type.KEYSYM,
-				GLFW.GLFW_KEY_J,
+				InputUtil.GLFW_KEY_J,
 				"category.pulseclick"
 		));
 
@@ -91,9 +95,11 @@ public class PulseClickClient implements ClientModInitializer {
 			}
 
 			if (PulseClickConfig.preventToolBreak) {
-				if (client.player.getMainHandStack().getMaxDamage() - client.player.getMainHandStack().getDamage() < 10) {
-					client.player.sendMessage(Text.translatable("pulseclick.message.toolbreak"), false);
-					toggleAutoClicker(client);
+				if (client.player.getMainHandStack().getComponents().get(DataComponentTypes.DAMAGE) != null) {
+					if (client.player.getMainHandStack().getMaxDamage() - client.player.getMainHandStack().getDamage() < 10) {
+						client.player.sendMessage(Text.translatable("pulseclick.message.toolbreak"), false);
+						toggleAutoClicker(client);
+					}
 				}
 			}
 
@@ -101,6 +107,25 @@ public class PulseClickClient implements ClientModInitializer {
 			if (PulseClickConfig.disconnectOnLowHealth) {
 				if (client.player.getHealth() < 3) {
 					disconnect(client);
+				}
+			}
+
+			// Unpause the game if it was paused and the player unfocused the game window
+			if (PulseClickConfig.unpauseGameOnUnfocus) {
+				if (!client.isWindowFocused()) {
+					if (client.currentScreen instanceof GameMenuScreen) {
+						client.options.pauseOnLostFocus = false;
+						client.setScreen(null);
+					}
+				}
+			}
+
+			if (PulseClickConfig.raidFarmMode) {
+				PlayerEntity player = client.player;
+				if (!player.hasStatusEffect(StatusEffects.BAD_OMEN)) {
+
+				} else {
+
 				}
 			}
 		}
