@@ -10,6 +10,9 @@
   "pulseclick.midnightconfig.enum.TimingMode.TICKS":"Execute after X ticks",
   "pulseclick.midnightconfig.enum.TimingMode.ATTACK_COOLDOWN":"Respect attack cooldown",
 
+  "pulseclick.midnightconfig.raidFarmModeComment": "Will hold right click when player has no active bad omen effect. Use this in raid farms.",
+  "pulseclick.midnightconfig.raidFarmMode": "Raid Farm Mode",
+
   "pulseclick.midnightconfig.ticksBetweenClicks": "Ticks between clicks",
   "pulseclick.midnightconfig.tickBetweenClicksComment":"If you have the timing mode set to \"Execute after X Ticks\", this is the number of ticks between each click:",
 
