@@ -5,7 +5,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.MessageScreen;
@@ -15,7 +14,6 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,6 +30,8 @@ public class PulseClickClient implements ClientModInitializer {
 	private static KeyBinding activateKeyBinding;
 	private static KeyBinding configKeyBinding;
 	private static int tickCounter;
+
+	private static int raidFarmCooldownTickCounter;
 
 	@Override
 	public void onInitializeClient() {
@@ -79,7 +79,8 @@ public class PulseClickClient implements ClientModInitializer {
 
 		if (isClicking) {
 			// Release the key that might have been pressed in the previous tick
-			releaseKey(client);
+			releaseKey(client, true);
+			releaseKey(client, false);
 
 			switch (PulseClickConfig.timingMode) {
 				case TICKS -> tickMode(client);
@@ -122,9 +123,14 @@ public class PulseClickClient implements ClientModInitializer {
 
 			if (PulseClickConfig.raidFarmMode) {
 				PlayerEntity player = client.player;
-				if (!player.hasStatusEffect(StatusEffects.BAD_OMEN)) {
-					client.options.useKey.setPressed(true);
+				if (!player.hasStatusEffect(StatusEffects.BAD_OMEN) && !player.hasStatusEffect(StatusEffects.RAID_OMEN)) {
+					if (raidFarmCooldownTickCounter <= 0) {
+						client.options.useKey.setPressed(true);
+					} else {
+						raidFarmCooldownTickCounter--;
+					}
 				} else {
+					raidFarmCooldownTickCounter = PulseClickConfig.raidFarmModeCooldown;
 					client.options.useKey.setPressed(false);
 				}
 			}
@@ -146,7 +152,8 @@ public class PulseClickClient implements ClientModInitializer {
 		}
 		else {
 			client.player.sendMessage(Text.translatable("pulseclick.message.deactivated"), true);
-			releaseKey(client);
+			releaseKey(client, true);
+			releaseKey(client, false);
 		}
 	}
 
@@ -156,7 +163,7 @@ public class PulseClickClient implements ClientModInitializer {
 	 */
 	private void attackCooldownMode(MinecraftClient client) {
 		if (client.player.getAttackCooldownProgress(0) == 1) {
-			pressKey(client);
+			handleKeyPress(client);
 			attemptMobAttack(client);
 		}
 	}
@@ -169,8 +176,7 @@ public class PulseClickClient implements ClientModInitializer {
 		tickCounter++;
 		if (tickCounter >= PulseClickConfig.ticksBetweenClicks) {
 			tickCounter = 0;
-			pressKey(client);
-			attemptMobAttack(client);
+			handleKeyPress(client);
 		}
 	}
 
@@ -181,7 +187,7 @@ public class PulseClickClient implements ClientModInitializer {
 	private void attemptMobAttack(MinecraftClient client) {
 		if (client.interactionManager == null)
 			return;
-		if (PulseClickConfig.key != Key.MOUSE_LEFT)
+		if (!PulseClickConfig.leftMouseButton)
 			return;
 
 		HitResult rayTrace = client.crosshairTarget;
@@ -191,14 +197,27 @@ public class PulseClickClient implements ClientModInitializer {
 		}
 	}
 
+	private void handleKeyPress(MinecraftClient client) {
+		if (PulseClickConfig.leftMouseButton) {
+			pressKey(client, true);
+			attemptMobAttack(client);
+		}
+		if (PulseClickConfig.rightMouseButton) {
+			pressKey(client, false);
+			attemptMobAttack(client);
+		}
+	}
+
 	/**
 	 * Presses the key that is currently configured to be held down
 	 * @param client The client
 	 */
-	private void pressKey(MinecraftClient client) {
-		switch (PulseClickConfig.key) {
-			case MOUSE_LEFT -> client.options.attackKey.setPressed(true);
-			case MOUSE_RIGHT -> client.options.useKey.setPressed(true);
+	private void pressKey(MinecraftClient client, boolean leftMouseButton) {
+		if (leftMouseButton) {
+			client.options.attackKey.setPressed(true);
+		}
+		if (!leftMouseButton) {
+			client.options.useKey.setPressed(true);
 		}
 	}
 
@@ -206,10 +225,12 @@ public class PulseClickClient implements ClientModInitializer {
 	 * Release the key that is currently configured to be held down
 	 * @param client The client
 	 */
-	private void releaseKey(MinecraftClient client) {
-		switch (PulseClickConfig.key) {
-			case MOUSE_LEFT -> client.options.attackKey.setPressed(false);
-			case MOUSE_RIGHT -> client.options.useKey.setPressed(false);
+	private void releaseKey(MinecraftClient client, boolean leftMouseButton) {
+		if (leftMouseButton) {
+			client.options.attackKey.setPressed(false);
+		}
+		if (!leftMouseButton) {
+			client.options.useKey.setPressed(false);
 		}
 	}
 

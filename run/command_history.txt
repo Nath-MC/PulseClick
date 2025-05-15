@@ -14,3 +14,6 @@
 /gamemode creative
 /gamemode survival
 /gamemode creative
+/time set day
+/locate structure minecraft:village_plains
+/tp @s -832 ~ 768

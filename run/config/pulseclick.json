@@ -1,8 +1,10 @@
 {
-  "key": "MOUSE_RIGHT",
+  "leftMouseButton": true,
+  "rightMouseButton": false,
   "timingMode": "TICKS",
   "ticksBetweenClicks": 50,
   "raidFarmMode": true,
+  "raidFarmModeCooldown": 1200,
   "preventStarvation": true,
   "preventToolBreak": false,
   "disconnectOnLowHealth": false,

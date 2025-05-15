@@ -4,7 +4,8 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class PulseClickConfig extends MidnightConfig {
 
-    @Entry() public static Key key = Key.MOUSE_LEFT;
+    @Entry() public static boolean leftMouseButton = false;
+    @Entry() public static boolean rightMouseButton = false;
 
     @Comment public static Comment spacer1;
 
@@ -19,6 +20,9 @@ public class PulseClickConfig extends MidnightConfig {
 
     @Comment public static Comment raidFarmModeComment;
     @Entry() public static boolean raidFarmMode = false;
+
+    @Comment public static Comment raidFarmModeCooldownComment;
+    @Entry() public static int raidFarmModeCooldown = 1200;
 
     @Comment public static Comment preventStarvationComment;
     @Entry() public static boolean preventStarvation = true;
